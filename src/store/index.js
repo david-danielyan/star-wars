@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
+import charactersReducer from "../Pages/Characters/charactersSlice";
 
 export const store = configureStore({
   reducer: combineReducers({
-    counter: counterReducer,
+    characters: charactersReducer,
   }),
 });

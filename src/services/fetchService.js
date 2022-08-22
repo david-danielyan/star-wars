@@ -31,7 +31,7 @@ const DEFAULT_HEADERS = {
 //   return axiosInstance(config);
 // };
 const fetchService = {
-  get: (url = API_URL, endPoint = "/", params = {}, headers = {}) => {
+  get: async (url = API_URL, endPoint = "/", params = {}, headers = {}) => {
     const config = {
       method: "GET",
       url: `${url}${endPoint}`,
