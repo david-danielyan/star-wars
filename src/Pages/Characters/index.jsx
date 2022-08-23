@@ -23,7 +23,7 @@ const Characters = () => {
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
   const debouncedSearchValue = useDebounce(searchValue, 500);
-  const { data = [], currentPage, totalPages } = characters;
+  const { data = [], totalPages } = characters;
   useEffect(() => {
     dispatch(fetchCharactersData({ page, search: debouncedSearchValue }));
   }, [dispatch, page, debouncedSearchValue]);
@@ -91,7 +91,7 @@ const Characters = () => {
               {totalPages > 1 ? (
                 <div className="pagination_section">
                   <Pagination
-                    current={currentPage}
+                    current={page}
                     total={totalPages}
                     onPageChange={handlePageChange}
                   />
