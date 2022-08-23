@@ -1,0 +1,23 @@
+.main_info_list_item {
+    display: flex !important;
+    justify-content: space-between;
+   
+}
+.block_title {
+    margin-bottom: 15px;
+}
+.go_back_section {
+    padding: 10px 0;
+}
+.character_info_section {
+    padding-top: 30px;
+}
+
+.character_films {
+    padding-top: 80px;
+}
+
+.films_table th{
+    vertical-align: middle;
+}
+

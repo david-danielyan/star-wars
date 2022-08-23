@@ -29,7 +29,6 @@ const Characters = () => {
   }, [dispatch, page, debouncedSearchValue]);
 
   const isNoData = prevLoading && !isLoading && !data.length;
-  const loadingItemsCount = [1, 2, 3, 4, 5, 6];
   const getLinkToCharacter = (character) => {
     const splittedUrl = character.url.split("/");
     return `characters/${splittedUrl[splittedUrl.length - 2]}`;
@@ -45,7 +44,7 @@ const Characters = () => {
   return (
     <Container className="characters_container app_container">
       {isNoData && !searchValue ? (
-        "No Characters Data"
+        <div className="no_data">No Characters Data</div>
       ) : (
         <>
           <Form.Control
@@ -58,37 +57,35 @@ const Characters = () => {
           />
           {isLoading ? (
             <div className="cards_section">
-              {loadingItemsCount.map((item) => (
-                <div className="characters_card_block" key={item}>
-                  <CardLoader />
-                </div>
-              ))}
+              <CardLoader />
             </div>
           ) : (
             <>
               <div className="cards_section">
-                {data.length
-                  ? data.map((item, index) => (
-                      <div className="characters_card_block" key={item.name}>
-                        <Card>
-                          <Card.Body>
-                            <Card.Title>{item.name}</Card.Title>
-                            <Card.Text>
-                              To get more information about character navigate
-                              to inner page by clicking the button
-                            </Card.Text>
-                            <Button
-                              variant="primary"
-                              as="a"
-                              href={getLinkToCharacter(item)}
-                            >
-                              See More
-                            </Button>
-                          </Card.Body>
-                        </Card>
-                      </div>
-                    ))
-                  : "No Search Result"}
+                {data.length ? (
+                  data.map((item, index) => (
+                    <div className="characters_card_block" key={item.name}>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>{item.name}</Card.Title>
+                          <Card.Text>
+                            To get more information about character navigate to
+                            inner page by clicking the button
+                          </Card.Text>
+                          <Button
+                            variant="primary"
+                            as="a"
+                            href={getLinkToCharacter(item)}
+                          >
+                            See More
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                  ))
+                ) : (
+                  <div className="no_data">No Search Result</div>
+                )}
               </div>
 
               {totalPages > 1 ? (
