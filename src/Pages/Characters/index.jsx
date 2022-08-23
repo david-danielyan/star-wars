@@ -1,13 +1,111 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchCharactersData } from "./charactersSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCharactersData,
+  selectCharactersData,
+  selectCharactersLoading,
+} from "./charactersSlice";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Pagination from "react-responsive-pagination";
 
+import Card from "react-bootstrap/Card";
+import usePrevious from "../Hooks/usePrevious";
+import "./characters.css";
+import CardLoader from "./CharactersCardLoader";
+import { Form } from "react-bootstrap";
+import useDebounce from "../Hooks/useDebounce";
 const Characters = () => {
   const dispatch = useDispatch();
+  const characters = useSelector(selectCharactersData);
+  const isLoading = useSelector(selectCharactersLoading);
+  const prevLoading = usePrevious(isLoading);
+  const [searchValue, setSearchValue] = useState("");
+  const [page, setPage] = useState(1);
+  const debouncedSearchValue = useDebounce(searchValue, 500);
+  const { data = [], currentPage, totalPages } = characters;
   useEffect(() => {
-    dispatch(fetchCharactersData("https://swapi.dev/api/people"));
-  }, [dispatch]);
-  return <div>test</div>;
+    dispatch(fetchCharactersData({ page, search: debouncedSearchValue }));
+  }, [dispatch, page, debouncedSearchValue]);
+
+  const isNoData = prevLoading && !isLoading && !data.length;
+  const loadingItemsCount = [1, 2, 3, 4, 5, 6];
+  const getLinkToCharacter = (character) => {
+    const splittedUrl = character.url.split("/");
+    return `characters/${splittedUrl[splittedUrl.length - 2]}`;
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+    setPage(1);
+  };
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+  return (
+    <Container className="characters_container app_container">
+      {isNoData && !searchValue ? (
+        "No Characters Data"
+      ) : (
+        <>
+          <Form.Control
+            type="text"
+            placeholder="Search Characters"
+            onChange={handleSearchChange}
+            value={searchValue}
+            disabled={isLoading}
+            className="search_input"
+          />
+          {isLoading ? (
+            <div className="cards_section">
+              {loadingItemsCount.map((item) => (
+                <div className="characters_card_block" key={item}>
+                  <CardLoader />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="cards_section">
+                {data.length
+                  ? data.map((item, index) => (
+                      <div className="characters_card_block" key={item.name}>
+                        <Card>
+                          <Card.Body>
+                            <Card.Title>{item.name}</Card.Title>
+                            <Card.Text>
+                              To get more information about character navigate
+                              to inner page by clicking the button
+                            </Card.Text>
+                            <Button
+                              variant="primary"
+                              as="a"
+                              href={getLinkToCharacter(item)}
+                            >
+                              See More
+                            </Button>
+                          </Card.Body>
+                        </Card>
+                      </div>
+                    ))
+                  : "No Search Result"}
+              </div>
+
+              {totalPages > 1 ? (
+                <div className="pagination_section">
+                  <Pagination
+                    current={currentPage}
+                    total={totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
+              ) : null}
+            </>
+          )}
+        </>
+      )}
+    </Container>
+  );
 };
 
 export default Characters;

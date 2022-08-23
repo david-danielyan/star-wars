@@ -1,0 +1,27 @@
+.characters_card_block {
+    width: 33.33%;
+    padding: 15px;
+}
+.characters_container {
+   
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.cards_section {
+    display: flex;
+    flex-wrap: wrap;
+}
+.search_input {
+    max-width: 300px;
+    margin: 0 auto;
+}
+@media only screen and (max-width: 1024px) {
+    .characters_card_block {
+        width:50%;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .characters_card_block {
+        width:100%;
+    }
+}

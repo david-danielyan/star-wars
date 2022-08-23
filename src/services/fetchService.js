@@ -7,31 +7,9 @@ const DEFAULT_HEADERS = {
   Accept: "application/json",
   "Content-Type": "application/json",
 };
-// const fetch = ({
-//   url = API_URL,
-//   endPoint = "/",
-//   body = {},
-//   method = "GET",
-//   headers = {},
-// }) => {
-//   let config = {
-//     method,
-//     url: `${url}${endPoint}`,
-//     data: body,
-//   };
 
-//   config.headers = {
-//     ...DEFAULT_HEADERS,
-//     ...headers,
-//   };
-
-//   if (method === "GET") {
-//     config.params = body;
-//   }
-//   return axiosInstance(config);
-// };
 const fetchService = {
-  get: async (url = API_URL, endPoint = "/", params = {}, headers = {}) => {
+  get: async ({ url = API_URL, endPoint = "/", params = {}, headers = {} }) => {
     const config = {
       method: "GET",
       url: `${url}${endPoint}`,

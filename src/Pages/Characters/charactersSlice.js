@@ -13,11 +13,14 @@ const initialState = {
 // typically used to make async requests.
 export const fetchCharactersData = createAsyncThunk(
   "characters/fetchData",
-  async (url) => {
+  async (params = { page: 1 }) => {
     // const response = await fetchCharacters();
     // // The value we return becomes the `fulfilled` action payload
     // return response.data;
-    const response = await fetchService.get("people");
+    const response = await fetchService.get({
+      endPoint: "people",
+      params,
+    });
     // The value we return becomes the `fulfilled` action payload
     const adaptedData = adaptCharactersResponse(response.data);
 
@@ -65,6 +68,10 @@ export const charactersSlice = createSlice({
 
 //export const {} = charactersSlice.actions;
 
-export const selectCount = (state) => state.counter.value;
+export const selectCharactersData = (state) => {
+  console.log(state);
+  return state.characters.charactersData;
+};
+export const selectCharactersLoading = (state) => state.characters.loading;
 
 export default charactersSlice.reducer;
