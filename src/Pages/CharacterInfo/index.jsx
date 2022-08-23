@@ -25,21 +25,18 @@ const CharactersInfo = () => {
   const prevLoading = usePrevious(characterDataLoading);
   const filmsData = useSelector(selectAdditionalInfo("films"));
   const filmsLoading = useSelector(selectAdditionalInfoLoading("films"));
-  const filmsPrevLoading = usePrevious(filmsLoading);
+
   useEffect(() => {
     dispatch(fetchCharacterMainData(routeParams.id));
   }, [dispatch, routeParams.id]);
 
-  const isNoFilmsData = filmsPrevLoading && !filmsLoading && !filmsData.length;
   const isNoData =
-    prevLoading &&
-    !characterDataLoading &&
-    !Object.keys(characterData).length &&
-    isNoFilmsData;
+    prevLoading && !characterDataLoading && !Object.keys(characterData).length;
+
   return (
     <Container className="character_info_container app_container">
       <div className="go_back_section">
-        <Link className="go_back_link" to="/characters">{`< Go Back`}</Link>
+        <Link className="go_back_link" to="/characters">{`< Go To Main`}</Link>
       </div>
       {isNoData ? (
         <div>No Character Data Found</div>
