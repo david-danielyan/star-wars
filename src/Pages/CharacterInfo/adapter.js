@@ -53,14 +53,6 @@ const characterAdditionalInfoAdapter = {
       newData.push({});
       arrFromItem.forEach(([key, value]) => {
         if (!keysToSkip[key]) {
-          //   const splittedKey = key.split("_");
-          //   const newString = splittedKey
-          //     .map(
-          //       (string) =>
-          //         string.charAt(0).toLocaleUpperCase() +
-          //         string.slice(1).toLowerCase()
-          //     )
-          //     .join(" ");
           newData[index][splitAndUppercase(key)] = value;
         }
       });

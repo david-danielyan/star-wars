@@ -1,5 +1,4 @@
 import Placeholder from "react-bootstrap/Placeholder";
-import Table from "react-bootstrap/Table";
 
 const FilmsLoader = ({ rowsCount = 10 }) => {
   const renderItems = () => {
@@ -19,7 +18,7 @@ const FilmsLoader = ({ rowsCount = 10 }) => {
       <Placeholder animation="glow">
         <Placeholder xs={2} className="block_title" />
       </Placeholder>
-      <Table>{renderItems()}</Table>
+      <div>{renderItems()}</div>
     </div>
   );
 };

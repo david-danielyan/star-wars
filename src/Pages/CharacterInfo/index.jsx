@@ -11,10 +11,11 @@ import {
   selectCharacterInfoLoading,
 } from "./characterInfoSlice";
 import CharacterMainInfo from "./CharacterMainInfo";
-import "./characterInfo.css";
 import MainInfoLoader from "./MainInfoLoader";
 import CharacterFilms from "./CharacterFilms";
 import FilmsLoader from "./FilmsLoader";
+
+import "./characterInfo.css";
 
 const CharactersInfo = () => {
   const routeParams = useParams();
