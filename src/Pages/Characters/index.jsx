@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCharactersData,
@@ -14,7 +14,6 @@ import usePrevious from "../../Hooks/usePrevious";
 import "./characters.css";
 import CardLoader from "./CharactersCardLoader";
 import { Form } from "react-bootstrap";
-import useDebounce from "../../Hooks/useDebounce";
 const Characters = () => {
   const dispatch = useDispatch();
   const characters = useSelector(selectCharactersData);
@@ -22,11 +21,11 @@ const Characters = () => {
   const prevLoading = usePrevious(isLoading);
   const [searchValue, setSearchValue] = useState("");
   const [page, setPage] = useState(1);
-  const debouncedSearchValue = useDebounce(searchValue, 500);
   const { data = [], totalPages } = characters;
+  const searchRef = useRef(null);
   useEffect(() => {
-    dispatch(fetchCharactersData({ page, search: debouncedSearchValue }));
-  }, [dispatch, page, debouncedSearchValue]);
+    dispatch(fetchCharactersData());
+  }, [dispatch]);
 
   const isNoData = prevLoading && !isLoading && !data.length;
   const getLinkToCharacter = (character) => {
@@ -37,9 +36,14 @@ const Characters = () => {
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
     setPage(1);
+    searchRef.current && clearTimeout(searchRef.current);
+    searchRef.current = setTimeout(() => {
+      dispatch(fetchCharactersData({ page: 1, search: e.target.value }));
+    }, 500);
   };
   const handlePageChange = (page) => {
     setPage(page);
+    dispatch(fetchCharactersData({ page, search: searchValue }));
   };
   return (
     <Container className="characters_container app_container">
