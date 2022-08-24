@@ -10,11 +10,11 @@ import Button from "react-bootstrap/Button";
 import Pagination from "react-responsive-pagination";
 
 import Card from "react-bootstrap/Card";
-import usePrevious from "../Hooks/usePrevious";
+import usePrevious from "../../Hooks/usePrevious";
 import "./characters.css";
 import CardLoader from "./CharactersCardLoader";
 import { Form } from "react-bootstrap";
-import useDebounce from "../Hooks/useDebounce";
+import useDebounce from "../../Hooks/useDebounce";
 const Characters = () => {
   const dispatch = useDispatch();
   const characters = useSelector(selectCharactersData);
